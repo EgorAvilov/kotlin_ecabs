@@ -47,7 +47,7 @@ class BookingController(
     fun findAll(): ResponseEntity<Any> = ResponseEntity<Any>(
         rabbitTemplate.convertSendAndReceive(
             FIND_ALL_BOOKING_KEY,
-            "get-all-booking"
+            FIND_ALL_BOOKING_KEY
         ), HttpStatus.OK
     )
 
