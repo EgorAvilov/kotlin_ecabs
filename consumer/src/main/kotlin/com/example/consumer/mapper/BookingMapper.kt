@@ -28,7 +28,6 @@ interface BookingMapper {
     @Mapping(source = "tripWayPoints", target = "tripWayPoints")
     fun map(booking: Booking): BookingDto
 
-
     @Mapping(source = "id", target = "id")
     @Mapping(source = "passengerName", target = "passengerName")
     @Mapping(source = "passengerContactNumber", target = "passengerContactNumber")
@@ -40,13 +39,11 @@ interface BookingMapper {
     @Mapping(source = "tripWayPoints", target = "tripWayPoints")
     fun map(bookingDto: BookingDto): Booking
 
-
     @Mapping(source = "id", target = "id")
     @Mapping(source = "locality", target = "locality")
     @Mapping(source = "latitude", target = "latitude")
     @Mapping(source = "longitude", target = "longitude")
     fun map(tripWayPoint: TripWayPoint): TripWayPointDto
-
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "locality", target = "locality")
