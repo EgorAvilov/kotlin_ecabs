@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  rabbit:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbit
+    hostname: rabbit
+    restart: on-failure
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_DEFAULT_VHOST}
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - rabbitmq_go_net
+  postgres:
+    image: postgres:15-alpine
+    container_name: ecabs-service-db
+    environment:
+      POSTGRES_DB: ecabs_service
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    ports:
+      - 5432:5432
+    networks:
+      - postgres_go_net
+networks:
+  rabbitmq_go_net:
+    driver: bridge
+  postgres_go_net:
+    driver: bridge
