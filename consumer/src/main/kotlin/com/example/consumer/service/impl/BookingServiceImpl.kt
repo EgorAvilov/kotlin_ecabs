@@ -5,7 +5,9 @@ import com.example.consumer.dto.BookingDto
 import com.example.consumer.mapper.BookingMapper
 import com.example.consumer.repository.BookingRepository
 import com.example.consumer.service.BookingService
-import com.google.gson.Gson
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import java.time.Instant
 import kotlin.jvm.optionals.getOrElse
@@ -31,10 +33,8 @@ class BookingServiceImpl(
         return bookingMapper.map(booking)
     }
 
-    override fun findAll(): List<BookingDto> {
-        val bookings = bookingRepository.findAll()
-        return bookings.map { bookingMapper.map(it) }
-    }
+    override fun findAll(page: Pageable): Page<BookingDto> =
+        bookingRepository.findAll(page).map { bookingMapper.map(it) }
 
     fun create(bookingDto: BookingDto): BookingDto {
         var booking: Booking = bookingMapper.map(bookingDto)
@@ -53,4 +53,10 @@ class BookingServiceImpl(
         persistBooking = bookingRepository.save(persistBooking)
         return bookingMapper.map(persistBooking)
     }
+
+    override fun findBySearchCriteria(
+        spec: Specification<Booking>,
+        page: Pageable
+    ): Page<BookingDto> = bookingRepository.findAll(spec, page).map { bookingMapper.map(it) }
+
 }
